@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pocket Planet preview</title>
+<style>
+  body { margin: 0; background: #0b0a18; color: #e8e6ff; font: 15px system-ui, sans-serif; }
+  header { display: flex; gap: 12px; align-items: center; padding: 16px; }
+  button { font: inherit; padding: 8px 14px; border-radius: 10px; border: 0; background: #6d5cff; color: white; }
+  main { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; padding: 0 16px 24px; }
+  figure { margin: 0; }
+  img { width: 100%; border-radius: 18px; image-rendering: pixelated; display: block; }
+  figcaption { padding: 6px 2px; font-size: 13px; }
+  figcaption small { display: block; opacity: 0.6; }
+</style>
+</head>
+<body>
+<header><button id="again">New planets</button><span>Each card is a fresh random seed.</span></header>
+<main id="grid"></main>
+<script src="planet.js"></script>
+<script>
+  function show() {
+    var grid = document.getElementById('grid');
+    grid.innerHTML = '';
+    for (var i = 0; i < 12; i++) {
+      var P = PocketPlanet.makePlanet(Math.floor(Math.random() * 4294967296));
+      var G = 120, lay = PocketPlanet.layout(P, { x: 6, y: 6, w: G - 12, h: G - 12 });
+      var png = PocketPlanet.encodePNG(PocketPlanet.render(P, G, G, lay), 2);
+      var fig = document.createElement('figure');
+      fig.innerHTML = '<img alt=""><figcaption></figcaption>';
+      fig.querySelector('img').src = 'data:image/png;base64,' + PocketPlanet.toBase64(png);
+      fig.querySelector('figcaption').innerHTML = '<b></b><small></small>';
+      fig.querySelector('b').textContent = P.name;
+      fig.querySelector('small').textContent = P.label + ' · ' + P.facts.join(' · ');
+      grid.appendChild(fig);
+    }
+  }
+  document.getElementById('again').onclick = show;
+  show();
+</script>
+</body>
+</html>
