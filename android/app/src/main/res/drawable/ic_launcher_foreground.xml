@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- A ringed planet on a 108dp adaptive-icon canvas (safe zone is the middle 66dp). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- back half of the ring -->
+    <path
+        android:fillColor="#C9C3F0"
+        android:pathData="M24,58 C24,50 84,40 84,50 C84,52 80,54 74,56 L72,52 C78,50 80,49 80,49 C76,46 34,54 28,58 Z" />
+    <!-- planet -->
+    <path
+        android:fillColor="#8E6CF0"
+        android:pathData="M54,54m-20,0a20,20 0,1 1,40 0a20,20 0,1 1,-40 0" />
+    <path
+        android:fillColor="#F2C14E"
+        android:pathData="M40,44 C46,40 52,42 50,48 C48,52 42,50 40,44 Z M58,58 C64,54 70,58 66,64 C62,68 56,64 58,58 Z" />
+    <!-- night side -->
+    <path
+        android:fillColor="#40160A3D"
+        android:pathData="M74,54 A20,20 0,0 1,40 68 A22,22 0,0 0,74 54 Z" />
+    <!-- front half of the ring -->
+    <path
+        android:fillColor="#E9E5FF"
+        android:pathData="M24,58 C22,64 80,52 84,50 C84,54 30,68 24,62 Z" />
+</vector>

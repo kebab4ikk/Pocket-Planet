@@ -90,15 +90,17 @@ if ([PPWall]::SystemParametersInfo(20, 0, $f, 3) -eq 0) { throw "SystemParameter
   { POCKET_PLANET_FILE: file });
 }
 
-// How many pixels of the rectangle the planet's rings cover.
-function ringPixels(P, lay, x0, y0, w, h) {
-  if (!P.ring) return 0;
-  const a = P.axis, { ri, ro } = P.ring;
+// How many pixels of the rectangle the planet's disk or rings cover.
+function covered(P, lay, x0, y0, w, h) {
+  const a = P.axis, ring = P.ring;
   let hits = 0;
   for (let py = y0; py < y0 + h; py++) for (let px = x0; px < x0 + w; px++) {
     const x = (px + 0.5 - lay.cx) / lay.r, y = -(py + 0.5 - lay.cy) / lay.r;
-    const t = -(x * a[0] + y * a[1]) / a[2], d = Math.sqrt(x * x + y * y + t * t);
-    if (d >= ri && d <= ro) hits++;
+    if (x * x + y * y < 1.21) { hits++; continue; }
+    if (ring) {
+      const t = -(x * a[0] + y * a[1]) / a[2], d = Math.sqrt(x * x + y * y + t * t);
+      if (d >= ring.ri && d <= ring.ro) hits++;
+    }
   }
   return hits;
 }
@@ -123,14 +125,14 @@ function main() {
   P.light = [L[0] / ll, L[1] / ll, L[2] / ll];
   const img = PocketPlanet.render(P, W, H, lay, { glow: true });
 
-  // Name, type and facts in the empty space at the bottom right, above the taskbar.
+  // Name, type and facts in the free corner: bottom right (above the taskbar),
+  // or top right when the planet or its rings would cover the text there.
   const lines = [[P.name, 2, 0xffffff], [P.label, 1, 0xd8d4f0], [P.facts.join(' · '), 1, 0xa9a6c6]];
   if (textWidth(P.name, 2) > W * 0.4) lines[0][1] = 1;
   const right = W - Math.round(W * 0.04);
   const blockW = Math.max(...lines.map(([t, sc]) => textWidth(t, sc))), blockH = 7 * lines[0][1] + 7 * 2 + 12;
-  // Bottom right normally; top right if the rings would run through the text there.
   const bottom = Math.round(H * (wide ? 0.76 : 0.82)), top = Math.round(H * 0.07);
-  const ringIn = y0 => ringPixels(P, lay, right - blockW, y0, blockW, blockH);
+  const ringIn = y0 => covered(P, lay, right - blockW, y0, blockW, blockH);
   let ty = ringIn(bottom) <= ringIn(top) ? bottom : top;
   for (const [text, sc, col] of lines) {
     drawText(img, text, right - textWidth(text, sc), ty, sc, col, 0x05050c);
