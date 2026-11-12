@@ -1,8 +1,8 @@
 # 🪐 Pocket Planet
 
-A brand-new pixel-art planet every time you look: on your **iPhone** as a widget
-or lock-screen wallpaper, and on **Windows** as a desktop wallpaper that changes
-**every time you unlock your PC**.
+A brand-new pixel-art planet every time you look: on **Windows** and
+**Android** (phones and tablets) as a wallpaper that changes **every time you
+unlock**, and on **iPhone** as a widget or lock-screen wallpaper.
 
 Every planet is generated from scratch, so you never see the same one twice:
 alien worlds, crystal worlds, candy worlds, lava, ice, gas giants with storms,
@@ -38,6 +38,23 @@ Also:
 * If it says *Access is denied*, right-click `install.cmd` and choose **Run as
   administrator**.
 * If something goes wrong, `%LOCALAPPDATA%\PocketPlanet\log.txt` says why.
+
+## Android (phones and tablets)
+
+A live wallpaper with the same backlit close-up as the PC. It fits any screen:
+the wide layout on tablets in landscape, and a tall one on phones.
+
+1. On your phone, download
+   **[PocketPlanet.apk](../../releases/latest/download/PocketPlanet.apk)**
+   (it's also on the [Releases](../../releases) page).
+2. Open it. If Android asks, allow installing apps from your browser or files
+   app, then tap **Install**.
+3. Open **Pocket Planet** and tap **Set wallpaper**. Choose *Home and lock
+   screens* if you're asked.
+
+Every time the screen turns off, a new planet gets drawn, so you see a new one
+each time you unlock. **Double-tap** an empty spot on the home screen to get
+another one right away.
 
 ## iPhone
 
@@ -87,6 +104,9 @@ Everything is plain JavaScript with no libraries:
   moons, a backlit glow, and a tiny PNG encoder.
 * `scriptable-main.js` is the iPhone widget and wallpaper.
 * `windows/` holds the Windows wallpaper script and installer.
+* `android/` is the Android live wallpaper. `android/core` is a Kotlin port of
+  `planet.js` that matches it pixel for pixel, so a seed gives the same planet
+  on every device. GitHub Actions builds the APK.
 * `preview.html` shows a grid of random planets in any browser.
 
 After changing anything, rebuild `dist/` with:
